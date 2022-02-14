@@ -2,7 +2,7 @@ import {
     SignIdentity,
     PublicKey,
   } from "@dfinity/agent";
-import { BinaryBlob } from "@dfinity/candid";
+import { BinaryBlob, blobFromBuffer, blobFromUint8Array } from "@dfinity/candid";
 import WalletConnect from "@walletconnect/client";
 
 type SerializedPublicKey = string
@@ -13,26 +13,22 @@ class WalletConnectIdentity extends SignIdentity {
 
     connector: WalletConnect | null;
 
-    encoder = new TextEncoder();
-    decoder = new TextDecoder();
-
     constructor(
         publicKey: SerializedPublicKey,
         connector: WalletConnect | null 
     ) {
         super();
 
-        const derKey = this.encoder.encode(publicKey);
+        const derKey = this.base64ToBuffer(publicKey);
+        console.log(derKey);
 
         this.connector = connector;
-        this.publicKey = { toDer: () => derKey.buffer } as PublicKey;
+        this.publicKey = { toDer: () => blobFromUint8Array(derKey) } as PublicKey;
     }
 
 
     public async sign(blob: BinaryBlob) : Promise<BinaryBlob>{
-        const decoder = new TextDecoder('utf-8');
-        const encoder = new TextEncoder();
-        const message = decoder.decode(blob);
+        const message = this.bufferToBase64(blob);
 
         const customRequest = {
             id: 1337,
@@ -46,15 +42,26 @@ class WalletConnectIdentity extends SignIdentity {
 
         const result = await this.connector.sendCustomRequest(customRequest)
 
-        const signature = encoder.encode(result[0]);
+        console.log("RESULT",result);
+
+        const signature = blobFromUint8Array(new Uint8Array(this.base64ToBuffer(result)));
+        console.log("SIGNATURE", signature)
 
 
-        return signature.buffer as BinaryBlob
+        return signature
     }
 
     public getPublicKey() {
         return this.publicKey;
     }
+
+    private bufferToBase64(buf: Uint8Array) {
+      return Buffer.from(buf.buffer).toString('base64');
+    }
+  
+  private base64ToBuffer(base64: string) {
+      return Buffer.from(base64, 'base64');
+  }
 }
 
 export default WalletConnectIdentity

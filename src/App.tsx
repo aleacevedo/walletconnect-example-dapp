@@ -196,7 +196,7 @@ class App extends React.Component<any, any> {
     });
 
     connector.on("connect", (error, payload) => {
-      console.log(`connector.on("connect")`);
+      console.log(`connector.on("connect")`, payload);
 
       if (error) {
         throw error;
@@ -245,8 +245,10 @@ class App extends React.Component<any, any> {
   public onConnect = async (payload: IInternalEvent) => {
     const { chainId, accounts } = payload.params[0];
     const { connector } = this.state;
+    console.log(accounts[0]);
     const identity = new WalletConnectIdentity(accounts[0], connector);
     const address = identity.getPrincipal().toString();
+    console.log('OnConnect.address', address);
     await this.setState({
       connected: true,
       chainId,
@@ -341,11 +343,11 @@ class App extends React.Component<any, any> {
     if (!identity) {
       return;
     }
-    const agent = new HttpAgent({identity});
+    const agent = new HttpAgent({host: 'https://ic0.app/', identity});
     const ICPActor = await getTokenActor({
-      canisterId: 'ryjl3-tyaaa-aaaaa-aaaba-cai',
+      canisterId: 'aanaa-xaaaa-aaaah-aaeiq-cai',
       agent,
-      standard: 'ICP'
+      standard: 'XTC'
     })
 
 
@@ -361,7 +363,7 @@ class App extends React.Component<any, any> {
       const result = await ICPActor.send({
         from: identity.getPrincipal().toString(),
         to: 'goto7-e3ns6-xnxzn-zfiuj-jpt4x-6rxpf-s47ux-cv3q7-fdnoo-ozw6z-wae',
-        amount: BigInt(10000000)
+        amount: BigInt(10000000000)
       })
 
       console.log("testSendCustomRequest.result", result);
@@ -426,7 +428,10 @@ class App extends React.Component<any, any> {
                 <Column center>
                   <STestButtonContainer>
                     <STestButton left onClick={this.testSendCustomRequestGetBalance}>
-                      {"custom_request"}
+                      {"custom_request_getBalance"}
+                    </STestButton>
+                    <STestButton left onClick={this.testSend1ICP}>
+                      {"custom_request_send_1_ICP"}
                     </STestButton>
                   </STestButtonContainer>
                 </Column>

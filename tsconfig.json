@@ -1,27 +1,12 @@
 {
-  "extends": "./test.json",
   "compilerOptions": {
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "target": "es2018",
+    "lib": ["ES2018", "DOM"],
     "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
+    "jsx": "react",
+    "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx"
+    "module": "esnext"
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src/**/*"]
 }
