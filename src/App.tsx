@@ -2,7 +2,6 @@ import * as React from "react";
 import styled from "styled-components";
 import WalletConnect from "@walletconnect/client";
 import { IInternalEvent } from "@walletconnect/types";
-import { getTokenActor } from '@psychedelic/dab-js';
 import { HttpAgent, SignIdentity } from "@dfinity/agent";
 
 import Button from "./components/Button";
@@ -148,7 +147,7 @@ const INITIAL_STATE: IAppState = {
   address: "",
   result: null,
   assets: [],
-  identity: null
+  identity: null,
 };
 
 class App extends React.Component<any, any> {
@@ -248,13 +247,13 @@ class App extends React.Component<any, any> {
     console.log(accounts[0]);
     const identity = new WalletConnectIdentity(accounts[0], connector);
     const address = identity.getPrincipal().toString();
-    console.log('OnConnect.address', address);
+    console.log("OnConnect.address", address);
     await this.setState({
       connected: true,
       chainId,
       accounts,
       address,
-      identity
+      identity,
     });
     this.getAccountAssets();
   };
@@ -285,7 +284,6 @@ class App extends React.Component<any, any> {
 
   public toggleModal = () => this.setState({ showModal: !this.state.showModal });
 
-
   public testSendCustomRequestGetBalance = async () => {
     const { connector, address } = this.state;
     const method = "get_balances";
@@ -300,7 +298,7 @@ class App extends React.Component<any, any> {
       method,
       params: [
         {
-          address
+          address,
         },
       ],
     };
@@ -343,13 +341,7 @@ class App extends React.Component<any, any> {
     if (!identity) {
       return;
     }
-    const agent = new HttpAgent({host: 'https://ic0.app/', identity});
-    const ICPActor = await getTokenActor({
-      canisterId: 'aanaa-xaaaa-aaaah-aaeiq-cai',
-      agent,
-      standard: 'XTC'
-    })
-
+    const agent = new HttpAgent({ host: "https://ic0.app/", identity });
 
     try {
       // open modal
@@ -360,26 +352,13 @@ class App extends React.Component<any, any> {
 
       // sign typed data
 
-      const result = await ICPActor.send({
-        from: identity.getPrincipal().toString(),
-        to: 'goto7-e3ns6-xnxzn-zfiuj-jpt4x-6rxpf-s47ux-cv3q7-fdnoo-ozw6z-wae',
-        amount: BigInt(10000000000)
-      })
-
-      console.log("testSendCustomRequest.result", result);
-
       // format displayed result
-      const formattedResult = {
-        address,
-        valid: true,
-        result: JSON.stringify(result, undefined, 2),
-      };
 
       // display result
       this.setState({
         connector,
         pendingRequest: false,
-        result: formattedResult || null,
+        result: {} || null,
       });
     } catch (error) {
       console.error(error);
@@ -388,16 +367,8 @@ class App extends React.Component<any, any> {
   };
 
   public render = () => {
-    const {
-      assets,
-      address,
-      connected,
-      chainId,
-      fetching,
-      showModal,
-      pendingRequest,
-      result,
-    } = this.state;
+    const { assets, address, connected, chainId, fetching, showModal, pendingRequest, result } =
+      this.state;
     return (
       <SLayout>
         <Column maxWidth={1000} spanHeight>
@@ -462,7 +433,7 @@ class App extends React.Component<any, any> {
             <SModalContainer>
               <SModalTitle>{"Call Request Approved"}</SModalTitle>
               <STable>
-                {Object.keys(result).map(key => (
+                {Object.keys(result).map((key) => (
                   <SRow key={key}>
                     <SKey>{key}</SKey>
                     <SValue>{result[key].toString()}</SValue>
