@@ -1,16 +1,12 @@
-'use strict';
+"use strict";
 
-const path = require('path');
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require("path");
+const webpack = require("webpack");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
-const TerserPlugin = require('terser-webpack-plugin');
+const TerserPlugin = require("terser-webpack-plugin");
 
-
-const asset_entry = path.join(
-  "src",
-  "index.tsx"
-);
+const asset_entry = path.join("src", "index.tsx");
 
 const isDevelopment = process.env.NODE_ENV !== "production";
 
@@ -37,12 +33,12 @@ module.exports = {
       events: require.resolve("events/"),
       stream: require.resolve("stream-browserify/"),
       util: require.resolve("util/"),
-      atob: require.resolve("atob/")
+      atob: require.resolve("atob/"),
     },
   },
   output: {
     filename: "index.js",
-    path: path.join(__dirname, "dist", "wallectConnect-poc"),
+    path: path.join(__dirname, "dist"),
   },
 
   // Depending in the language or framework you are using for
@@ -53,33 +49,33 @@ module.exports = {
   module: {
     rules: [
       { test: /\.(ts|tsx|jsx|js)$/, loader: "ts-loader" },
-      { test: /\.css$/, use: ['style-loader', 'css-loader'] },
+      { test: /\.css$/, use: ["style-loader", "css-loader"] },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        type: 'asset/resource',
+        type: "asset/resource",
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
-        type: 'asset/resource',
+        type: "asset/resource",
       },
       {
         test: /\.(ogg|mp3|wav|mpe?g)$/i,
-        loader: 'file-loader',
-      }
-    ]
+        loader: "file-loader",
+      },
+    ],
   },
 
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, '/public/index.html'),
+      template: path.join(__dirname, "/public/index.html"),
       cache: false,
-      inject: true
+      inject: true,
     }),
     new CopyPlugin({
       patterns: [
         {
           from: path.join(__dirname, "src", "assets"),
-          to: path.join(__dirname, "dist", "wallectConnect-poc"),
+          to: path.join(__dirname, "dist"),
         },
       ],
     }),
