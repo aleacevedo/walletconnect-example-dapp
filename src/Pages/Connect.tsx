@@ -141,7 +141,6 @@ const INITIAL_STATE: IAppState = {
 const Connect = () => {
   const navigate = useNavigate();
   const [connectorPer, setConnector] = React.useState(null);
-  const [deepLink, setDeepLink] = React.useState(null);
 
   React.useEffect(() => {
     const doConnect = async () => {
@@ -176,17 +175,16 @@ const Connect = () => {
         }
       });
       setConnector(connector);
-      setDeepLink(
-        `http://b9e9-181-170-227-142.ngrok.io/wallet-connect?uri=${encodeURIComponent(
-          connectorPer.uri,
-        )}`,
-      );
     };
 
     doConnect();
   }, []);
 
   const connect = async () => {
+    const deepLink = `http://b9e9-181-170-227-142.ngrok.io/wallet-connect?uri=${encodeURIComponent(
+      connectorPer.uri,
+    )}`;
+
     console.log("going to: ", deepLink);
 
     window.location.replace(deepLink);
@@ -203,7 +201,7 @@ const Connect = () => {
               <span>{`v${process.env.REACT_APP_VERSION}`}</span>
             </h3>
             <SButtonContainer>
-              <SConnectButton left onClick={connect} disabled={!!deepLink}>
+              <SConnectButton left onClick={connect} disabled={!connectorPer}>
                 {"Connect to WalletConnect"}
               </SConnectButton>
             </SButtonContainer>
