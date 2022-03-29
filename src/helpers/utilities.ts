@@ -1,5 +1,4 @@
 import { providers } from "ethers";
-import { convertUtf8ToHex } from "@walletconnect/utils";
 import { TypedDataUtils } from "eth-sig-util";
 import * as ethUtil from "ethereumjs-util";
 import { IChainData } from "./types";
@@ -9,7 +8,7 @@ import { eip1271 } from "./eip1271";
 export function capitalize(string: string): string {
   return string
     .split(" ")
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(" ");
 }
 
@@ -23,7 +22,7 @@ export function ellipseText(text = "", maxLength = 9999): string {
   const result =
     text
       .split(" ")
-      .filter(word => {
+      .filter((word) => {
         currentLength += word.length;
         if (ellipse || currentLength >= _maxLength) {
           ellipse = true;
@@ -126,22 +125,6 @@ export function getChainData(chainId: number): IChainData {
   return chainData;
 }
 
-export function encodePersonalMessage(msg: string): string {
-  const data = ethUtil.toBuffer(convertUtf8ToHex(msg));
-  const buf = Buffer.concat([
-    Buffer.from("\u0019Ethereum Signed Message:\n" + data.length.toString(), "utf8"),
-    data,
-  ]);
-  return ethUtil.bufferToHex(buf);
-}
-
-export function hashMessage(msg: string): string {
-  const data = encodePersonalMessage(msg);
-  const buf = ethUtil.toBuffer(data);
-  const hash = ethUtil.keccak256(buf);
-  return ethUtil.bufferToHex(hash);
-}
-
 export function encodeTypedDataMessage(msg: string): string {
   const data = TypedDataUtils.sanitizeData(JSON.parse(msg));
   const buf = Buffer.concat([
@@ -163,12 +146,6 @@ export function recoverAddress(sig: string, hash: string): string {
   const params = ethUtil.fromRpcSig(sig);
   const result = ethUtil.ecrecover(ethUtil.toBuffer(hash), params.v, params.r, params.s);
   const signer = ethUtil.bufferToHex(ethUtil.publicToAddress(result));
-  return signer;
-}
-
-export function recoverMessageSignature(sig: string, msg: string): string {
-  const hash = hashMessage(msg);
-  const signer = recoverAddress(sig, hash);
   return signer;
 }
 

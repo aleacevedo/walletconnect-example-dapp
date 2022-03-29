@@ -1,9 +1,13 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { createGlobalStyle } from "styled-components";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import App from "./App";
+import Connect from "./Pages/Connect";
+import WalletConnect from "./Pages/WalletConnect";
+
 import { globalStyle } from "./styles";
+import App from "./App";
 const GlobalStyle = createGlobalStyle`
   ${globalStyle}
 `;
@@ -18,7 +22,13 @@ declare global {
 ReactDOM.render(
   <>
     <GlobalStyle />
-    <App />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Connect />} />
+        <Route path="wallet-connect" element={<WalletConnect />} />
+        <Route path="old" element={<App />} />
+      </Routes>
+    </BrowserRouter>
   </>,
   document.getElementById("root"),
 );

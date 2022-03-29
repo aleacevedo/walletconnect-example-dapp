@@ -53,7 +53,7 @@ module.exports = {
   module: {
     rules: [
       { test: /\.(ts|tsx|jsx|js)$/, loader: "ts-loader" },
-      { test: /\.css$/, use: ['style-loader','css-loader'] },
+      { test: /\.css$/, use: ['style-loader', 'css-loader'] },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: 'asset/resource',
@@ -100,5 +100,6 @@ module.exports = {
       },
     },
     hot: true,
+    historyApiFallback: true,
   },
 };

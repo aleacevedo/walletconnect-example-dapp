@@ -1,0 +1,15 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "DZVNACPGLK.co.psychedelic.plug",
+        "paths": [
+          "NOT /e/*",
+          "*",
+          "/"
+        ]
+      }
+    ]
+  }
+}
