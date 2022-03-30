@@ -155,7 +155,13 @@ const Connect = () => {
       console.log("CONNECT BEFORE CREATE SESSION", connector.uri);
 
       await connector.createSession();
-      console.log("CONNECT AFTER CREATE SESSION", connector.uri);
+      console.log(
+        "CONNECT AFTER CREATE SESSION",
+        connector.uri,
+        connector.handshakeId,
+        connector.handshakeTopic,
+        connector.peerId,
+      );
 
       connector.on("session_update", async (error, payload) => {
         console.log(`connector.on("session_update"), ${payload}`);
