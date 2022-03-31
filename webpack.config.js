@@ -77,6 +77,10 @@ module.exports = {
           from: path.join(__dirname, "src", "assets"),
           to: path.join(__dirname, "dist"),
         },
+        {
+          from: path.join(__dirname, "public", ".well-known"),
+          to: path.join(__dirname, "dist", ".well-known"),
+        },
       ],
     }),
     new webpack.ProvidePlugin({
