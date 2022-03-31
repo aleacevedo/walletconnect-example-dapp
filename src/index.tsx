@@ -2,6 +2,7 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { createGlobalStyle } from "styled-components";
 import { BrowserRouter, Routes, Route, HashRouter } from "react-router-dom";
+import IpfsRouter from "ipfs-react-router";
 
 import Connect from "./Pages/Connect";
 import WalletConnect from "./Pages/WalletConnect";
@@ -22,13 +23,13 @@ declare global {
 ReactDOM.render(
   <>
     <GlobalStyle />
-    <HashRouter>
+    <IpfsRouter>
       <Routes>
         <Route path="/" element={<Connect />} />
         <Route path="wallet-connect" element={<WalletConnect />} />
         <Route path="old" element={<App />} />
       </Routes>
-    </HashRouter>
+    </IpfsRouter>
   </>,
   document.getElementById("root"),
 );
