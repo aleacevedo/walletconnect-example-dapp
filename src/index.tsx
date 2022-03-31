@@ -22,13 +22,13 @@ declare global {
 ReactDOM.render(
   <>
     <GlobalStyle />
-    <HashRouter>
+    <BrowserRouter>
       <Routes>
         <Route path="/" element={<Connect />} />
         <Route path="/wallet-connect" element={<WalletConnect />} />
         <Route path="/old" element={<App />} />
       </Routes>
-    </HashRouter>
+    </BrowserRouter>
   </>,
   document.getElementById("root"),
 );
