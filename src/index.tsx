@@ -23,9 +23,11 @@ ReactDOM.render(
   <>
     <GlobalStyle />
     <HashRouter>
-      <Route path="/" element={<Connect />} />
-      <Route path="wallet-connect" element={<WalletConnect />} />
-      <Route path="old" element={<App />} />
+      <Routes>
+        <Route path="/" element={<Connect />} />
+        <Route path="/wallet-connect" element={<WalletConnect />} />
+        <Route path="/old" element={<App />} />
+      </Routes>
     </HashRouter>
   </>,
   document.getElementById("root"),
