@@ -145,11 +145,11 @@ const Connect = () => {
   const [connected, setConnected] = React.useState(false);
   const [account, setAccount] = React.useState("");
 
-  const createSession = () => {
+  const createSession = async () => {
     if (connector.connected) {
-      connector.killSession();
+      await connector.killSession();
     }
-    connector.createSession();
+    await connector.createSession();
     console.log("SessionCreated URI: ", connector.uri);
   };
 
@@ -174,7 +174,7 @@ const Connect = () => {
     });
     wcConnector.on("disconect", async (error, payload) => {
       setConnected(false);
-      connector.killSession();
+      wcConnector.killSession();
     });
 
     setConnector(wcConnector);
@@ -187,7 +187,7 @@ const Connect = () => {
       connector.uri,
     )}`;
 
-    window.location.replace(deepLink);
+    //window.location.replace(deepLink);
   };
 
   const disconnect = () => {
