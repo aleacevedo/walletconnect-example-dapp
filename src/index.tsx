@@ -26,7 +26,6 @@ ReactDOM.render(
       <Routes>
         <Route path="/" element={<Connect />} />
         <Route path="wallet-connect" element={<WalletConnect />} />
-        <Route path="old" element={<App />} />
       </Routes>
     </BrowserRouter>
   </>,

@@ -2,16 +2,16 @@ import { IChainData } from "../helpers/types";
 
 export const SUPPORTED_CHAINS: IChainData[] = [
   {
-    name: "Ethereum Mainnet",
-    short_name: "eth",
-    chain: "ETH",
+    name: "InternetComputer",
+    short_name: "ic",
+    chain: "IC",
     network: "mainnet",
     chain_id: 1,
     network_id: 1,
-    rpc_url: "https://mainnet.infura.io/v3/%API_KEY%",
+    rpc_url: "ic0.app",
     native_currency: {
-      symbol: "ETH",
-      name: "Ether",
+      symbol: "ICP",
+      name: "ICP",
       decimals: "18",
       contractAddress: "",
       balance: "",

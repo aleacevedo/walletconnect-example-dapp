@@ -8,6 +8,7 @@ import Wrapper from "../components/Wrapper";
 import { fonts } from "../styles";
 import { IAssetData } from "../helpers/types";
 import { Navigate, useHref, useNavigate } from "react-router-dom";
+import App from "../App";
 
 const SLayout = styled.div`
   position: relative;
@@ -140,81 +141,88 @@ const INITIAL_STATE: IAppState = {
 
 const Connect = () => {
   const navigate = useNavigate();
-  const [connectorPer, setConnector] = React.useState(null);
+  const [connector, setConnector] = React.useState(null);
+  const [connected, setConnected] = React.useState(false);
+  const [account, setAccount] = React.useState("");
+
+  const createSession = () => {
+    if (connector.connected) {
+      connector.killSession();
+    }
+    connector.createSession();
+    console.log("SessionCreated URI: ", connector.uri);
+  };
 
   React.useEffect(() => {
-    const doConnect = async () => {
-      const bridge = "https://bridge.walletconnect.org";
+    const bridge = "https://bridge.walletconnect.org";
 
-      const connector = new WalletConnect({ bridge });
-      console.log("CONNECT AFTER WALLET CONNECT", connector, connector.connected);
+    const wcConnector = new WalletConnect({ bridge });
 
-      if (connector.connected) {
-        await connector.killSession();
+    wcConnector.on("connect", (error, payload) => {
+      if (error) {
+        throw error;
       }
-      console.log("CONNECT BEFORE CREATE SESSION", connector.uri);
 
-      await connector.createSession();
-      console.log(
-        "CONNECT AFTER CREATE SESSION",
-        connector.uri,
-        connector.handshakeId,
-        connector.handshakeTopic,
-        connector.peerId,
-      );
+      const { chainId, accounts } = payload.params[0];
+      setConnected(true);
+      setAccount(accounts[0]);
+    });
+    wcConnector.on("session_update", async (error, payload) => {
+      if (error) {
+        throw error;
+      }
+    });
+    wcConnector.on("disconect", async (error, payload) => {
+      setConnected(false);
+      connector.killSession();
+    });
 
-      connector.on("session_update", async (error, payload) => {
-        console.log(`connector.on("session_update"), ${payload}`);
-
-        if (error) {
-          throw error;
-        }
-
-        const { chainId, accounts } = payload.params[0];
-      });
-
-      connector.on("connect", (error, payload) => {
-        console.log(`connector.on("connect")`, payload);
-
-        if (error) {
-          throw error;
-        }
-      });
-      setConnector(connector);
-    };
-
-    doConnect();
+    setConnector(wcConnector);
   }, []);
 
   const connect = async () => {
-    const deepLink = `https://2f34-2800-21a0-4400-f0f-9cee-372c-fb93-4b7d.ngrok.io/wallet-connect?uri=${encodeURIComponent(
-      connectorPer.uri,
-    )}`;
+    createSession();
 
-    console.log("going to: ", deepLink);
+    const deepLink = `https://2f34-2800-21a0-4400-f0f-9cee-372c-fb93-4b7d.ngrok.io/wallet-connect?uri=${encodeURIComponent(
+      connector.uri,
+    )}`;
 
     window.location.replace(deepLink);
   };
 
+  const disconnect = () => {
+    if (connector.connected) {
+      connector.killSession();
+    }
+
+    setConnected(false);
+  };
+
   return (
-    <SLayout>
-      <Column maxWidth={1000} spanHeight>
-        <SContent>
-          <SLanding center>
-            <h3>
-              {`Try out WalletConnect`}
-              <br />
-              <span>{`v${process.env.REACT_APP_VERSION}`}</span>
-            </h3>
-            <SButtonContainer>
-              <SConnectButton left onClick={connect} disabled={!connectorPer}>
-                {"Connect to WalletConnect"}
-              </SConnectButton>
-            </SButtonContainer>
-          </SLanding>
-        </SContent>
-      </Column>
-    </SLayout>
+    <>
+      {!connected ? (
+        <SLayout>
+          <Column maxWidth={1000} spanHeight>
+            <SContent>
+              <SLanding center>
+                <h3>
+                  {`Try out WalletConnect`}
+                  <br />
+                  <span>{`v${process.env.REACT_APP_VERSION}`}</span>
+                </h3>
+                <SButtonContainer>
+                  <SConnectButton left onClick={connect} disabled={!connector}>
+                    {"Connect to WalletConnect"}
+                  </SConnectButton>
+                </SButtonContainer>
+              </SLanding>
+            </SContent>
+          </Column>
+        </SLayout>
+      ) : (
+        <App connector={connector} account={account} onDisconnect={disconnect} />
+      )}
+    </>
   );
 };
 
