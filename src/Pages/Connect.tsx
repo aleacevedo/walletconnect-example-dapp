@@ -187,7 +187,7 @@ const Connect = () => {
   }, []);
 
   const connect = async () => {
-    const deepLink = `http://b9e9-181-170-227-142.ngrok.io/wallet-connect?uri=${encodeURIComponent(
+    const deepLink = `https://08ed-181-170-227-142.ngrok.io/wallet-connect?uri=${encodeURIComponent(
       connectorPer.uri,
     )}`;
 
