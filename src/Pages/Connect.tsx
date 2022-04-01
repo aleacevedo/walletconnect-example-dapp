@@ -187,7 +187,7 @@ const Connect = () => {
       connector.uri,
     )}`;
 
-    //window.location.replace(deepLink);
+    window.location.replace(deepLink);
   };
 
   const disconnect = () => {
