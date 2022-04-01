@@ -133,9 +133,17 @@ const App = ({
   const [pendingRequest, setPendingRequesat] = React.useState(false);
   const [result, setResult] = React.useState(null);
   const [fetching, setFetching] = React.useState(false);
+  let identity;
+  let address;
 
-  const identity = new WalletConnectIdentity(account, connector);
-  const address = identity.getPrincipal().toString();
+  try {
+    identity = new WalletConnectIdentity(account, connector);
+    address = identity.getPrincipal().toString();
+  } catch (e) {
+    console.log("APP ERROR", e);
+    onDisconnect();
+  }
+
   const chainId = 1;
   const assets = [];
 

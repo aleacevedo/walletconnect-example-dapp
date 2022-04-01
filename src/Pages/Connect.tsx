@@ -198,32 +198,36 @@ const Connect = () => {
     setConnected(false);
   };
 
-  return (
-    <>
-      {!connected ? (
-        <SLayout>
-          <Column maxWidth={1000} spanHeight>
-            <SContent>
-              <SLanding center>
-                <h3>
-                  {`Try out WalletConnect`}
-                  <br />
-                  <span>{`v${process.env.REACT_APP_VERSION}`}</span>
-                </h3>
-                <SButtonContainer>
-                  <SConnectButton left onClick={connect} disabled={!connector}>
-                    {"Connect to WalletConnect"}
-                  </SConnectButton>
-                </SButtonContainer>
-              </SLanding>
-            </SContent>
-          </Column>
-        </SLayout>
-      ) : (
-        <App connector={connector} account={account} onDisconnect={disconnect} />
-      )}
-    </>
-  );
+  try {
+    return (
+      <>
+        {!connected ? (
+          <SLayout>
+            <Column maxWidth={1000} spanHeight>
+              <SContent>
+                <SLanding center>
+                  <h3>
+                    {`Try out WalletConnect`}
+                    <br />
+                    <span>{`v${process.env.REACT_APP_VERSION}`}</span>
+                  </h3>
+                  <SButtonContainer>
+                    <SConnectButton left onClick={connect} disabled={!connector}>
+                      {"Connect to WalletConnect"}
+                    </SConnectButton>
+                  </SButtonContainer>
+                </SLanding>
+              </SContent>
+            </Column>
+          </SLayout>
+        ) : (
+          <App connector={connector} account={account} onDisconnect={disconnect} />
+        )}
+      </>
+    );
+  } catch (e) {
+    console.log("CONNECTIONG ERROR", e);
+  }
 };
 
 export default Connect;
