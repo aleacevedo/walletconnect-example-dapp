@@ -133,19 +133,20 @@ const App = ({
   const [pendingRequest, setPendingRequesat] = React.useState(false);
   const [result, setResult] = React.useState(null);
   const [fetching, setFetching] = React.useState(false);
-  let identity;
-  let address;
-
-  try {
-    identity = new WalletConnectIdentity(account, connector);
-    address = identity.getPrincipal().toString();
-  } catch (e) {
-    console.log("APP ERROR", e);
-    onDisconnect();
-  }
-
+  const [identity, setIdentity] = React.useState(null);
+  const [address, setAddress] = React.useState("");
   const chainId = 1;
   const assets = [];
+
+  React.useEffect(() => {
+    try {
+      setIdentity(new WalletConnectIdentity(account, connector));
+      setAddress(identity.getPrincipal().toString());
+    } catch (e) {
+      console.log("APP ERROR", e);
+      onDisconnect();
+    }
+  }, [account, connector]);
 
   const disconnect = () => {
     onDisconnect();
