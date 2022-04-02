@@ -13,7 +13,8 @@ class WalletConnectIdentity extends SignIdentity {
     super();
 
     const derKey = this.base64ToBuffer(publicKey);
-    console.log(derKey);
+    console.log("publick", publicKey);
+    console.log("DERKEY", derKey);
 
     this.connector = connector;
     this.publicKey = { toDer: () => blobFromUint8Array(derKey) } as PublicKey;

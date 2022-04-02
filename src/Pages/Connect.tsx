@@ -164,8 +164,9 @@ const Connect = () => {
       }
 
       const { chainId, accounts } = payload.params[0];
-      setConnected(true);
+      console.log("ON Connect", chainId, accounts);
       setAccount(accounts[0]);
+      setConnected(true);
     });
     wcConnector.on("session_update", async (error, payload) => {
       if (error) {
