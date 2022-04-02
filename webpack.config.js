@@ -78,8 +78,9 @@ module.exports = {
           to: path.join(__dirname, "dist"),
         },
         {
-          from: path.join(__dirname, "public", ".well-known"),
-          to: path.join(__dirname, "dist", ".well-known"),
+          from: path.join(__dirname, "public"),
+          to: path.join(__dirname, "dist"),
+          filter: (path) => !path.includes("index.html"),
         },
       ],
     }),
