@@ -140,8 +140,9 @@ const App = ({
 
   React.useEffect(() => {
     try {
-      setIdentity(new WalletConnectIdentity(account, connector));
-      setAddress(identity.getPrincipal().toString());
+      const identityB = new WalletConnectIdentity(account, connector);
+      setAddress(identityB.getPrincipal().toString());
+      setIdentity(identityB);
     } catch (e) {
       console.log("APP ERROR", e);
       onDisconnect();
