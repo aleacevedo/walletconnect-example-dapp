@@ -1,15 +1,18 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 import styled from "styled-components";
+import ICPIcon from "../assets/ICPIcon.svg";
+import WICPIcon from "../assets/WICPIcon.svg";
+import XTCIcon from "../assets/XTCIcon.svg";
 
 interface IIconStyleProps {
   size: number;
 }
 
 const IconPaths = {
-  ICP: "../assets/ICPIcon.svg",
-  WICPIcon: "../assets/WICPIcon.svg",
-  XTCIcon: "../assets/XTCIcon.svg",
+  ICP: ICPIcon,
+  WICP: WICPIcon,
+  XTC: XTCIcon,
 };
 
 const SIcon = styled.img<IIconStyleProps>`
