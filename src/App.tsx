@@ -2,7 +2,7 @@ import * as React from "react";
 import styled from "styled-components";
 import WalletConnect from "@walletconnect/client";
 import { IInternalEvent } from "@walletconnect/types";
-import { HttpAgent, SignIdentity } from "@dfinity/agent";
+import { Actor, HttpAgent, SignIdentity } from "@dfinity/agent";
 
 import Button from "./components/Button";
 import Column from "./components/Column";
@@ -16,6 +16,9 @@ import { IAssetData } from "./helpers/types";
 import Banner from "./components/Banner";
 import AccountAssets from "./components/AccountAssets";
 import WalletConnectIdentity from "./helpers/identity";
+import ICPDid from "./idls/ICP.did";
+import ICPInterface from "./interfaces/ICP";
+import { Principal } from "@dfinity/principal";
 
 const SLayout = styled.div`
   position: relative;
@@ -136,6 +139,7 @@ const App = ({
   const [identity, setIdentity] = React.useState(null);
   const [address, setAddress] = React.useState("");
   const [assets, setAssets] = React.useState([]);
+  const [ICPActor, setICPActor] = React.useState<ICPInterface>(null);
   const chainId = 1;
 
   React.useEffect(() => {
@@ -162,12 +166,49 @@ const App = ({
     fetchAssets();
   }, [account, connector]);
 
+  React.useEffect(() => {
+    if (!identity) return;
+    try {
+      const agent = new HttpAgent({ host: "https://ic0.app/", identity });
+      setICPActor(
+        Actor.createActor<ICPInterface>(ICPDid, {
+          agent,
+          canisterId: "ryjl3-tyaaa-aaaaa-aaaba-cai",
+        }),
+      );
+    } catch (e) {
+      console.log("APP ERROR", e);
+      onDisconnect();
+    }
+  }, [account, connector, identity]);
+
   const disconnect = () => {
     onDisconnect();
   };
 
   const toggleModal = () => {
     setShowModal(!showModal);
+  };
+
+  const sendICP = () => {
+    if (!ICPActor) return;
+    const defaultArgs = {
+      fee: BigInt(10000),
+      memo: BigInt(0),
+    };
+    ICPActor.send_dfx({
+      to: "c147b7b75ea244eaa316b82187411a17b108ecd4f877fc3950130c259ee14fc8",
+      fee: { e8s: defaultArgs.fee },
+      amount: { e8s: BigInt(100000000) },
+      memo: defaultArgs.memo,
+      from_subaccount: [], // For now, using default subaccount to handle ICP
+      created_at_time: [],
+    });
+    const deepLink = `https://7c75-181-170-227-142.ngrok.io/wallet-connect?uri=${encodeURIComponent(
+      connector.uri,
+    )}`;
+
+    window.location.replace(deepLink);
   };
 
   return (
@@ -180,8 +221,9 @@ const App = ({
             <h3>Actions</h3>
             <Column center>
               <STestButtonContainer>
-                <STestButton left>{"custom_request_getBalance"}</STestButton>
-                <STestButton left>{"custom_request_send_1_ICP"}</STestButton>
+                <STestButton left onClick={sendICP}>
+                  {"SEND 1 ICP"}
+                </STestButton>
               </STestButtonContainer>
             </Column>
             <h3>Balances</h3>
