@@ -132,7 +132,7 @@ const App = ({
   const [showModal, setShowModal] = React.useState(false);
   const [pendingRequest, setPendingRequesat] = React.useState(false);
   const [result, setResult] = React.useState(null);
-  const [fetching, setFetching] = React.useState(false);
+  const [fetching, setFetching] = React.useState(true);
   const [identity, setIdentity] = React.useState(null);
   const [address, setAddress] = React.useState("");
   const chainId = 1;
@@ -147,6 +147,18 @@ const App = ({
       console.log("APP ERROR", e);
       onDisconnect();
     }
+  }, [account, connector]);
+
+  React.useEffect(() => {
+    const fetchAssets = async () => {
+      setFetching(true);
+      const response = await connector.sendCustomRequest({
+        method: "getAssets",
+      });
+      console.log(response);
+      setFetching(false);
+    };
+    fetchAssets();
   }, [account, connector]);
 
   const disconnect = () => {

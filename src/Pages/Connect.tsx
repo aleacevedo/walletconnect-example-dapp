@@ -184,7 +184,7 @@ const Connect = () => {
   const connect = async () => {
     await createSession();
 
-    const deepLink = `https://40c1-181-170-227-142.ngrok.io/wallet-connect?uri=${encodeURIComponent(
+    const deepLink = `https://7c75-181-170-227-142.ngrok.io/wallet-connect?uri=${encodeURIComponent(
       connector.uri,
     )}`;
 
