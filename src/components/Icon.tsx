@@ -6,36 +6,33 @@ interface IIconStyleProps {
   size: number;
 }
 
+const IconPaths = {
+  ICP: "../assets/ICPIcon.svg",
+  WICPIcon: "../assets/WICPIcon.svg",
+  XTCIcon: "../assets/XTCIcon.svg",
+};
+
 const SIcon = styled.img<IIconStyleProps>`
   width: ${({ size }) => `${size}px`};
   height: ${({ size }) => `${size}px`};
 `;
 
 const Icon = (props: any) => {
-  const { src, fallback, size } = props;
-  return (
-    <SIcon
-      {...props}
-      src={src}
-      size={size}
-      onError={(event: any) => {
-        if (fallback) {
-          event.target.src = fallback;
-        }
-      }}
-    />
-  );
+  const { name, size } = props;
+  const src = IconPaths[name];
+
+  return <SIcon src={src} size={size} onError={(event: any) => {}} />;
 };
 
 Icon.propTypes = {
-  src: PropTypes.string,
-  fallback: PropTypes.string,
+  name: PropTypes.string,
+  color: PropTypes.string,
   size: PropTypes.number,
 };
 
 Icon.defaultProps = {
-  src: null,
-  fallback: "",
+  name: null,
+  color: "",
   size: 20,
 };
 

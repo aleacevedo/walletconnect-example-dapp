@@ -135,8 +135,8 @@ const App = ({
   const [fetching, setFetching] = React.useState(true);
   const [identity, setIdentity] = React.useState(null);
   const [address, setAddress] = React.useState("");
+  const [assets, setAssets] = React.useState([]);
   const chainId = 1;
-  const assets = [];
 
   React.useEffect(() => {
     try {
@@ -156,6 +156,7 @@ const App = ({
         method: "getAssets",
       });
       console.log(response);
+      setAssets(response.payload.assets);
       setFetching(false);
     };
     fetchAssets();
