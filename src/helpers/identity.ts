@@ -24,8 +24,6 @@ class WalletConnectIdentity extends SignIdentity {
     const message = this.bufferToBase64(blob);
 
     const customRequest = {
-      id: 1337,
-      jsonrpc: "2.0",
       method: "sign",
       params: [message],
     };
