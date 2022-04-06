@@ -42,7 +42,7 @@ class WalletConnectIdentity extends SignIdentity {
   }
 
   public async signReadState(blob: BinaryBlob): Promise<BinaryBlob> {
-    console.log("SIGN");
+    console.log("SIGN_READ_STATE");
     const message = this.bufferToBase64(blob);
 
     const customRequest = {
@@ -53,6 +53,8 @@ class WalletConnectIdentity extends SignIdentity {
     if (!this.connector) throw new Error("Not Connector initialized");
 
     const result = await this.connector.sendCustomRequest(customRequest);
+
+    console.log("SIGN_READ_STATE, result", result);
 
     const signature = blobFromUint8Array(new Uint8Array(this.base64ToBuffer(result)));
 
