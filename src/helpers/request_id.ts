@@ -34,7 +34,7 @@ interface ToHashable {
 
 function hashValue(value: any): BinaryBlob {
   if (value instanceof borc.Tagged) {
-    return hashValue((value as borc.Tagged).value);
+    return hashValue(value.value);
   } else if (typeof value === "string") {
     return hashString(value);
   } else if (typeof value === "number") {
