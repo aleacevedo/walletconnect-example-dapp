@@ -196,13 +196,13 @@ const App = ({
     if (!ICPActor) return;
     toggleModal();
     const defaultArgs = {
-      fee: BigInt(100000),
+      fee: BigInt(10000),
       memo: BigInt(0),
     };
     const result = await ICPActor.send_dfx({
       to: "c147b7b75ea244eaa316b82187411a17b108ecd4f877fc3950130c259ee14fc8",
       fee: { e8s: defaultArgs.fee },
-      amount: { e8s: BigInt(10000000) },
+      amount: { e8s: BigInt(100000000) },
       memo: defaultArgs.memo,
       from_subaccount: [], // For now, using default subaccount to handle ICP
       created_at_time: [],
