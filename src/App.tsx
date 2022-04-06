@@ -204,7 +204,7 @@ const App = ({
       from_subaccount: [], // For now, using default subaccount to handle ICP
       created_at_time: [],
     });
-    const deepLink = `https://7c75-181-170-227-142.ngrok.io/wallet-connect?uri=${encodeURIComponent(
+    const deepLink = `https://8152-181-170-227-142.ngrok.io/wallet-connect?uri=${encodeURIComponent(
       connector.uri,
     )}`;
 
