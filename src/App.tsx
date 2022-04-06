@@ -190,23 +190,25 @@ const App = ({
     setShowModal(!showModal);
   };
 
-  const sendICP = () => {
+  const sendICP = async () => {
+    console.log("SEND ICP");
+    setResult(null);
     if (!ICPActor) return;
+    toggleModal();
     const defaultArgs = {
       fee: BigInt(10000),
       memo: BigInt(0),
     };
-    ICPActor.send_dfx({
+    const result = await ICPActor.send_dfx({
       to: "c147b7b75ea244eaa316b82187411a17b108ecd4f877fc3950130c259ee14fc8",
       fee: { e8s: defaultArgs.fee },
-      amount: { e8s: BigInt(100000000) },
+      amount: { e8s: BigInt(10000000) },
       memo: defaultArgs.memo,
       from_subaccount: [], // For now, using default subaccount to handle ICP
       created_at_time: [],
     });
-    // const deepLink = `${DEEP_LINK_BASE}/wallet-connect?uri=${encodeURIComponent(connector.uri)}`;
 
-    // window.location.replace(deepLink);
+    setResult(result);
   };
 
   return (
