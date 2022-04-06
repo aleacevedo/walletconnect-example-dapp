@@ -19,6 +19,7 @@ import WalletConnectIdentity from "./helpers/identity";
 import ICPDid from "./idls/ICP.did";
 import ICPInterface from "./interfaces/ICP";
 import { Principal } from "@dfinity/principal";
+import { DEEP_LINK_BASE } from "./constant";
 
 const SLayout = styled.div`
   position: relative;
@@ -204,9 +205,7 @@ const App = ({
       from_subaccount: [], // For now, using default subaccount to handle ICP
       created_at_time: [],
     });
-    const deepLink = `https://8152-181-170-227-142.ngrok.io/wallet-connect?uri=${encodeURIComponent(
-      connector.uri,
-    )}`;
+    const deepLink = `${DEEP_LINK_BASE}/wallet-connect?uri=${encodeURIComponent(connector.uri)}`;
 
     window.location.replace(deepLink);
   };

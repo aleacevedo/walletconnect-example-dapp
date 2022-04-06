@@ -9,6 +9,7 @@ import { fonts } from "../styles";
 import { IAssetData } from "../helpers/types";
 import { Navigate, useHref, useNavigate } from "react-router-dom";
 import App from "../App";
+import { DEEP_LINK_BASE } from "../constant";
 
 const SLayout = styled.div`
   position: relative;
@@ -184,9 +185,7 @@ const Connect = () => {
   const connect = async () => {
     await createSession();
 
-    const deepLink = `https://7c75-181-170-227-142.ngrok.io/wallet-connect?uri=${encodeURIComponent(
-      connector.uri,
-    )}`;
+    const deepLink = `${DEEP_LINK_BASE}/wallet-connect?uri=${encodeURIComponent(connector.uri)}`;
 
     window.location.replace(deepLink);
   };
