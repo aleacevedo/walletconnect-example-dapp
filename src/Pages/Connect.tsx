@@ -1,6 +1,7 @@
 import * as React from "react";
 import styled from "styled-components";
 import WalletConnect from "@walletconnect/client";
+import { saveMobileLinkInfo, formatIOSMobile } from "@walletconnect/browser-utils";
 
 import Button from "../components/Button";
 import Column from "../components/Column";
@@ -9,7 +10,7 @@ import { fonts } from "../styles";
 import { IAssetData } from "../helpers/types";
 import { Navigate, useHref, useNavigate } from "react-router-dom";
 import App from "../App";
-import { DEEP_LINK_BASE } from "../constant";
+import { WC_MOBILE_REGISTRY_ENTRY } from "../constant";
 
 const SLayout = styled.div`
   position: relative;
@@ -157,7 +158,7 @@ const Connect = () => {
   React.useEffect(() => {
     const bridge = "https://bridge.walletconnect.org";
 
-    const wcConnector = new WalletConnect({ bridge });
+    const wcConnector = new WalletConnect({ bridge, signingMethods: ["sign"] });
 
     wcConnector.on("connect", (error, payload) => {
       if (error) {
@@ -185,9 +186,12 @@ const Connect = () => {
   const connect = async () => {
     await createSession();
 
-    const deepLink = `${DEEP_LINK_BASE}/wallet-connect?uri=${encodeURIComponent(connector.uri)}`;
+    const href = formatIOSMobile(connector.uri, WC_MOBILE_REGISTRY_ENTRY);
+    saveMobileLinkInfo({ name: "Plug", href });
 
-    window.location.replace(deepLink);
+    console.log("HREF", href);
+
+    window.location.replace(href);
   };
 
   const disconnect = () => {
