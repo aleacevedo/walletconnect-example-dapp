@@ -5,6 +5,6 @@ export const WC_MOBILE_REGISTRY_ENTRY: IMobileRegistryEntry = {
   shortName: "Plug",
   color: "Rainbow",
   logo: "",
-  universalLink: "https://8152-181-170-227-142.ngrok.io/wc",
+  universalLink: "https://8152-181-170-227-142.ngrok.io",
   deepLink: "",
 };
