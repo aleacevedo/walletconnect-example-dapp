@@ -196,7 +196,7 @@ const App = ({
     if (!ICPActor) return;
     toggleModal();
     const defaultArgs = {
-      fee: BigInt(10000),
+      fee: BigInt(100000),
       memo: BigInt(0),
     };
     const result = await ICPActor.send_dfx({

@@ -56,7 +56,7 @@ class WalletConnectIdentity extends SignIdentity {
 
     console.log("SIGN_READ_STATE, result", result);
 
-    const signature = blobFromUint8Array(new Uint8Array(this.base64ToBuffer(result)));
+    const signature = blobFromUint8Array(new Uint8Array(this.base64ToBuffer(result.result)));
 
     return signature;
   }
