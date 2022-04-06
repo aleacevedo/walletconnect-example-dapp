@@ -152,7 +152,6 @@ const Connect = () => {
       await connector.killSession();
     }
     await connector.createSession();
-    console.log("SessionCreated URI: ", connector.uri);
   };
 
   React.useEffect(() => {
@@ -166,7 +165,6 @@ const Connect = () => {
       }
 
       const { chainId, accounts } = payload.params[0];
-      console.log("ON Connect", chainId, accounts);
       setAccount(accounts[0]);
       setConnected(true);
     });
@@ -188,8 +186,6 @@ const Connect = () => {
 
     const href = formatIOSMobile(connector.uri, WC_MOBILE_REGISTRY_ENTRY);
     saveMobileLinkInfo({ name: "Plug", href });
-
-    console.log("HREF", href);
 
     window.location.replace(href);
   };

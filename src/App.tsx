@@ -159,7 +159,6 @@ const App = ({
       const response = await connector.sendCustomRequest({
         method: "getAssets",
       });
-      console.log(response);
       setAssets(response.payload.assets);
       setFetching(false);
     };
@@ -193,6 +192,7 @@ const App = ({
   const sendICP = async () => {
     console.log("SEND ICP");
     setResult(null);
+    setPendingRequesat(true);
     if (!ICPActor) return;
     toggleModal();
     const defaultArgs = {
@@ -209,6 +209,7 @@ const App = ({
     });
 
     setResult(result);
+    setPendingRequesat(false);
   };
 
   return (
