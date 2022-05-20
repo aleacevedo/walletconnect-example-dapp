@@ -208,6 +208,8 @@ const App = ({
       created_at_time: [],
     });
 
+    console.log("RESULT", result);
+
     setResult(result);
     setPendingRequesat(false);
   };
