@@ -6,8 +6,8 @@
         "appID": "DZVNACPGLK.co.psychedelic.plug",
         "paths": [
           "NOT /e/*",
-          "*",
-          "/"
+          "/wc/*",
+          "/wc/"
         ]
       }
     ]
